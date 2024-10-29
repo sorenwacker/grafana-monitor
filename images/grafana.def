@@ -1,0 +1,17 @@
+BootStrap: docker
+From: grafana/grafana:latest
+
+%labels
+  Author YourName
+  Version 1.0
+
+%environment
+  export GF_SECURITY_ADMIN_PASSWORD="admin"
+
+%post
+  echo "Setting up Grafana provisioning..."
+  echo "Grafana provisioning setup completed."
+
+%startscript
+  echo "Starting Grafana..."
+  /usr/share/grafana/bin/grafana-server --homepath /usr/share/grafana web 

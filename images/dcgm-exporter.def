@@ -1,0 +1,9 @@
+BootStrap: docker
+From: nvcr.io/nvidia/k8s/dcgm-exporter:latest
+
+%environment
+    export NVIDIA_VISIBLE_DEVICES=all
+
+%startscript
+  echo "Starting DCGM Exporter..."
+  /usr/bin/dcgm-exporter

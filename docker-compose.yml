@@ -1,0 +1,38 @@
+services:
+  dcgm-exporter:
+    image: nvcr.io/nvidia/k8s/dcgm-exporter:latest
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    ports:
+      - "9400:9400"
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - dcgm-exporter  # Prometheus needs the dcgm-exporter to be running
+      - node-exporter  # Add dependency here
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./provisioning:/etc/grafana/provisioning  # Mount provisioning directory
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin  # Set a password for the admin user
+    depends_on:
+      - prometheus  # Grafana needs Prometheus to be running
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - "9100:9100"  # Expose Node Exporter port
+    restart: unless-stopped

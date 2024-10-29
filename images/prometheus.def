@@ -1,0 +1,24 @@
+BootStrap: docker
+From: prom/prometheus:latest
+
+%labels
+  Author YourName
+  Version 1.0
+
+%files
+  ./prometheus.yml /etc/prometheus/prometheus.yml
+
+%post
+  echo "Setting up Prometheus configuration..."
+  
+  # Ensure that we only copy if the file does not already exist
+  if [ ! -f /etc/prometheus/prometheus.yml ]; then
+    cp ./prometheus.yml /etc/prometheus/prometheus.yml
+  fi
+
+  # Additional setup commands can go here
+  echo "Prometheus setup completed."
+
+%startscript
+  echo "Starting Prometheus..."
+  /bin/prometheus --config.file=/etc/prometheus/prometheus.yml

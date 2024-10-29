@@ -1,0 +1,23 @@
+BootStrap: docker
+From: golang:latest
+
+%files
+  # You can include any additional files or directories here
+
+%post
+  echo "Installing git..."
+  apt-get update && apt-get install -y git
+
+  echo "Cloning slurm-exporter repository..."
+  git clone https://github.com/your-repo/slurm-exporter.git /usr/local/src/slurm-exporter
+
+  echo "Building slurm-exporter..."
+  cd /usr/local/src/slurm-exporter
+  go build -o /usr/local/bin/slurm-exporter .
+
+%environment
+  export PATH=/usr/local/bin:$PATH
+
+%startscript
+  echo "Starting slurm-exporter..."
+  /usr/local/bin/slurm-exporter

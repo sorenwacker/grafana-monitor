@@ -1,0 +1,13 @@
+BootStrap: docker
+From: prom/node-exporter:latest
+
+%labels
+  Author YourName
+  Version 1.0
+
+%post
+  echo "Node Exporter image built."
+
+%startscript
+  echo "Starting Node Exporter..."
+  /bin/node_exporter
