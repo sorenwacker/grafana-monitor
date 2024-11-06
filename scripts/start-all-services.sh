@@ -14,6 +14,7 @@ declare -A containers=(
   ["dcgm-exporter"]="dcgm-exporter.sif"
   ["prometheus"]="prometheus.sif"
   ["grafana"]="grafana.sif"
+  ["nvidida-gpu-exporter"]="nvidia-gpu-exporter.sif"
 )
 
 # Define volumes and ports for each service
@@ -27,6 +28,7 @@ declare -A ports=(
   ["dcgm-exporter"]="9400:9400"
   ["prometheus"]="9090:9090"
   ["grafana"]="3000:3000"
+  ["nvidida-gpu-exporter"]="9835:9835"
 )
 
 # Start the containers
@@ -43,8 +45,8 @@ for service in "${!containers[@]}"; do
 
   # Add additional bindings for GPU visibility if applicable
   if [[ "$service" == "dcgm-exporter" ]]; then
-    BIND_OPTS+=" --bind /dev:/dev"
-    BIND_OPTS+=" --bind /run:/run"
+    #BIND_OPTS+=" --bind /dev:/dev"
+    #BIND_OPTS+=" --bind /run:/run"
     BIND_OPTS+=" --nv"  # Include the --nv option for GPU access
   fi
 

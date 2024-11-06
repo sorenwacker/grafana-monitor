@@ -36,3 +36,12 @@ services:
     ports:
       - "9100:9100"  # Expose Node Exporter port
     restart: unless-stopped
+
+  nvidia_gpu_exporter:
+    image: ubuntu:24.04
+    volumes:
+      - ./nvidia_gpu_exporter:/usr/bin/nvidia_gpu_exporter  # Ensure this is the binary file, not a directory
+    ports:
+      - "9835:9835"
+    entrypoint: ["/usr/bin/nvidia_gpu_exporter"]  # Ensure the entrypoint is the correct path to the binary
+    restart: unless-stopped

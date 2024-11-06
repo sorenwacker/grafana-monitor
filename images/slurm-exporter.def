@@ -2,22 +2,18 @@ BootStrap: docker
 From: golang:latest
 
 %files
-  # You can include any additional files or directories here
+  ./apps/prometheus-slurm-exporter /usr/local/src/prometheus-slurm-exporter
 
 %post
-  echo "Installing git..."
-  apt-get update && apt-get install -y git
-
-  echo "Cloning slurm-exporter repository..."
-  git clone https://github.com/your-repo/slurm-exporter.git /usr/local/src/slurm-exporter
-
-  echo "Building slurm-exporter..."
-  cd /usr/local/src/slurm-exporter
-  go build -o /usr/local/bin/slurm-exporter .
+  echo "Installing git and make..."
+  apt-get update && apt-get install -y git make
+  echo "Building prometheus-slurm-exporter..."
+  cd /usr/local/src/prometheus-slurm-exporter
+  make
 
 %environment
-  export PATH=/usr/local/bin:$PATH
+  export PATH=/usr/local/src/prometheus-slurm-exporter/bin:$PATH
 
 %startscript
-  echo "Starting slurm-exporter..."
-  /usr/local/bin/slurm-exporter
+  echo "Starting prometheus-slurm-exporter..."
+  /usr/local/src/prometheus-slurm-exporter/bin/prometheus-slurm-exporter

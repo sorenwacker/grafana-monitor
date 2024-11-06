@@ -19,6 +19,7 @@ declare -A def_files=(
   ["grafana"]="$DEF_FILES_DIR/grafana.def"
   ["node-exporter"]="$DEF_FILES_DIR/node-exporter.def"
   ["slurm-exporter"]="$DEF_FILES_DIR/slurm-exporter.def"
+  ["nvidia-gpu-exporter"]="$DEF_FILES_DIR/nvidia-gpu-exporter.def"
 )
 
 # Loop through each definition file and build the SIF file
