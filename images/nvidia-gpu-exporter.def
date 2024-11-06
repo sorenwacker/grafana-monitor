@@ -1,0 +1,12 @@
+BootStrap: docker
+From: utkuozdemir/nvidia_gpu_exporter:1.2.1
+
+%environment
+    export NVIDIA_VISIBLE_DEVICES=all
+
+%post
+    # Ensure necessary permissions are set
+    chmod +x /usr/bin/nvidia_gpu_exporter
+
+%startscript
+    exec /usr/bin/nvidia_gpu_exporter
